@@ -24,13 +24,14 @@ import {
   Icon,
   Avatar,
 } from "@chakra-ui/react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, Navigate, NavLink } from "react-router-dom";
 import {
   Search2Icon,
   ChevronRightIcon,
   RepeatClockIcon,
 } from "@chakra-ui/icons";
-import React from "react";
+import React, { useContext } from "react";
+import { AuthContext } from "../context/AppContext";
 
 const links = [
   {
@@ -77,6 +78,16 @@ function selects() {
 function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
+  const [placement, setPlacement] = React.useState('right')
+  const {isAuth,logOutuser}=useContext(AuthContext);
+  const logoutUser=()=>{
+    logOutuser();
+  }
+  // if(!isAuth)
+  // {
+  //   return <Navigate to="/login" />
+  // }
+
   // console.log(isModalOpen)
   return (
     <>
@@ -137,7 +148,7 @@ function Navbar() {
         </Flex>
 
         <Flex mt={1}>
-          <Box mt={2}>
+        <Box mt={2}>
             <Flex
               ref={btnRef}
               _hover={{ color: "#0098b8" }}
@@ -291,17 +302,25 @@ function Navbar() {
           <Box mt={2} w="26%">
             <Flex alignItems="center" justifyContent="space-evenly">
               <Box>
-                <Link to="/login">
-                  {" "}
-                  <Flex _hover={{ color: "#0098b8" }} alignItems="center">
+                {/* < to="/login"> */}
+                {isAuth?  <Flex  _hover={{ color: "#0098b8" }} alignItems="center">
+                    <Button onClick={logoutUser}> <Avatar
+                      size="sm"
+                      _hover={{ background: "#0098b8" }}
+                      bg="black" mr={2}
+                    /> Log Out</Button>
+                  </Flex> :  <Link to="/login">  <Flex  _hover={{ color: "#0098b8" }} alignItems="center">
                     <Avatar
                       size="sm"
                       _hover={{ background: "#0098b8" }}
                       bg="black"
                     />
+                    
                     <Text ml={2}>Sign in</Text>
-                  </Flex>
-                </Link>
+                  </Flex> 
+                  </Link>}
+                
+
               </Box>
               <Box>
                 <Link to="/orders">
