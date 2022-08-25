@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import OfferPage from "../components/OfferPage";
+import { PrivateRoute } from "../components/PrivateRoute";
 import CartPage from "./CartPage";
 import DealsPage from "./Deal";
 import DepartmentPage from "./Department";
@@ -16,7 +17,7 @@ import StorePage from "./Stores";
 export default function AllRoutes(){
 return(
     <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={ <PrivateRoute><HomePage /></PrivateRoute>} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/deals" element={<DealsPage />} />
         <Route path="/cart" element={<CartPage />} />
