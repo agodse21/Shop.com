@@ -4,13 +4,40 @@ import {
   Center,
   Flex,
   Heading,
+  Icon,
+  IconButton,
   Image,
   Stack,
   Text,
 } from "@chakra-ui/react";
+import axios from "axios";
 import React from "react";
+import { useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import {ArrowLeftIcon, ArrowRightIcon, StarIcon} from "@chakra-ui/icons"
+import ProductDetail from "./ProductDetails";
+
+function getRandomInt(max,min) {
+  return Math.random() * (max - min) + min;
+}
+
+const medicalProduct=(page)=>{
+  return axios(`https://warm-garden-46246.herokuapp.com/medical_products?_page=${page}&_limit=4`);
+}
+
 function HomePage() {
+  const [medicine,setMedicine]=useState([]);
+  const [page,setPage]=useState(1);
+  useEffect(()=>{
+    medicalProduct(page).then(res=>{
+      setMedicine(res.data);
+      console.log("ss",medicine)
+
+  }).catch(err=>{
+      console.log(err)
+  })
+  },[page])
   return (
     <>
       {" "}
@@ -179,6 +206,37 @@ function HomePage() {
               /></Link>
 
           </Box>
+        </Flex>
+      </Box>
+      <Box mt={3} w="100%" bg="white" p={3}>
+        <Heading>
+          New Prouducts
+        </Heading>
+        <Flex h="550px"  justifyContent="space-evenly" p={3}>
+        <IconButton mt="15%" disabled={page===1} onClick={()=>setPage(page-1)} icon={<ArrowLeftIcon />} colorScheme='teal' variant='outline' />
+          
+        {
+          medicine.map((item)=><>
+         <Link  to={`/product/${item.id}`}>
+           <Box w="100%" h="100%" cursor="pointer" bg="white"  p={3} key={item.id}>
+              <Image w="90%" h="80%" src={item.main_image} alt={item.main_image}/>
+             <Center> <Text w="80%">
+                {item.title}
+              </Text>
+             </Center>
+             <Heading ml={10} size="sm">
+                {item.price}
+                </Heading>
+                <Text ml={10}><Icon mr={2} as={StarIcon} />{Math.floor(getRandomInt(3,5))}</Text>
+              </Box>
+              </Link>
+              {/* <ProductDetail key={item.id} main_image={item.main_image} title={item.title}
+               price={item.price} desc={item.desc} back_side_img={item.back_side_img} side_img={item.side_img} /> */}
+              </>
+          )
+        }
+         <IconButton mt="15%" onClick={()=>setPage(page+1)} icon={<ArrowRightIcon />} colorScheme='teal' variant='outline' />
+        
         </Flex>
       </Box>
     </>
