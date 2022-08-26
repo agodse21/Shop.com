@@ -12,6 +12,7 @@ import OrderPage from "./OrederPage";
 import ShopBuddyPage from "./ShopBuddy";
 import ShopLocalPage from "./ShopLocal";
 import ShopTravelPage from "./ShopTravel";
+import SignUp from "./SignUp";
 import StorePage from "./Stores";
 
 export default function AllRoutes(){
@@ -20,8 +21,8 @@ return(
         <Route path="/" element={ <PrivateRoute><HomePage /></PrivateRoute>} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/deals" element={<DealsPage />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/orders" element={<OrderPage />} />
+        <Route path="/cart" element={<PrivateRoute><CartPage /></PrivateRoute>} />
+        <Route path="/orders" element={<PrivateRoute><OrderPage /></PrivateRoute>} />
         <Route path="/exclusive" element={<ExclusivePage />} />
         <Route path="/shopbuddy" element={<ShopBuddyPage />} />
         <Route path="/shoplocal" element={<ShopLocalPage />} />
@@ -29,6 +30,7 @@ return(
         <Route path="/stores" element={<StorePage />} />
         <Route path="/department" element={<DepartmentPage />} /> 
         <Route path="/offer" element={<OfferPage />} /> 
+        <Route path="/signup" element={<SignUp />} /> 
     </Routes>
 )
 

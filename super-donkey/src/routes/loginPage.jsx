@@ -60,7 +60,12 @@ const handleLogin=(e)=>{
   if(isAuth){
     return <Navigate to="/" />
 }
- 
+const Tosignup=()=>{
+  alert("ndj")
+  return 
+  
+} 
+
   const handleClick = () => setShow(!show);
 
   const isError = input === "";
@@ -118,9 +123,9 @@ const handleLogin=(e)=>{
               <Text fontSize="14px" >
               With a SHOP.COM account, you can enjoy the following benefits: up to 50% Cashback on eligible purchases, redeem discount coupons, order status and history, saved payment options and addresses, exclusive emails and more. <Link to="/" ><Text textDecoration="underline">Learn more</Text></Link> 
               </Text>
-              <Button colorScheme='teal' variant='outline'>
+            <Link to="/signup">  <Button  colorScheme='teal' variant='outline'>
     Create New Account
-  </Button>
+  </Button></Link>
             </Stack></Box>
         </Flex>
       </Box>
