@@ -1,6 +1,6 @@
 # super-donkey-7341
 >Individual Project
->Created by Amol Godse
+>Created by Me (Amol Godse)
 ## Project Title
 >super-donkey-7341
 
