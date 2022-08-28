@@ -1,4 +1,4 @@
-import { Alert, AlertIcon, AlertTitle, Box, Button, Center, Flex, Heading, Image, Tag, TagLabel, Text } from "@chakra-ui/react";
+import { Alert, AlertDescription, AlertIcon, AlertTitle, Avatar, Box, Button, Center, CloseButton, Flex, Heading, Image, Tag, TagLabel, Text, useDisclosure } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
@@ -6,11 +6,19 @@ const GetMedProbyId=(id)=>{
     return axios(`https://warm-garden-46246.herokuapp.com/medical_products/${id}`);
 
 }
-
+const MakeupProduct=(id)=>{
+  return axios(`https://warm-garden-46246.herokuapp.com/Makeup_Products/${id}`)
+  }
 function CartPage(){
     const [mdata,setMdata]=useState([]);
+    const [makeup,setMakeup]=useState("");
     const [err,setErr]=useState("");
     const { id } = useParams();
+    const {
+      isOpen: isVisible,
+      onClose,
+      onOpen,
+    } = useDisclosure({ defaultIsOpen: false });
     useEffect(() => {
         
         GetMedProbyId(id).then(res=>{
@@ -24,40 +32,138 @@ function CartPage(){
         })
          
       }, [id]);
+
+      useEffect(() => {
+        
+        MakeupProduct(id).then(res=>{
+           setMakeup(res.data)
+            console.log("ss",res.data)
+      
+        }).catch(err=>{
+            console.log(err)
+            setErr(err.message)
+        })
+         
+      }, [id]);
+      let price=mdata.price;
     //   if(mdata){
     //     console.log("jkjksjjks")
     //   }
     return(<>
        <Center><Heading mt={5}>Cart</Heading></Center>
 
-        <Box m="auto" mt={5} w="50%" h="400px">   
+        <Box m="auto" mt={5} w="50%" h="550px">   
         {/* <Text>{err}</Text> */}
         <Alert status='error'>
   {/* <AlertIcon /> */}
-  {err?<AlertTitle>{err}</AlertTitle>:"Avoid Fake Payment"}
+  {err?<AlertTitle>{err}</AlertTitle>:"Avoid Fake Payments!"}
   
 </Alert>
-        <Flex>
-              <Image w="50%" h="70%" src={mdata.main_image} />
-             <Box mt={10}> 
-             <Heading size="md">{mdata.title}</Heading>
-                <Heading mt={5} size="lg">Total Amount:{mdata.price}</Heading>
-                <Link  to={`/payment`}>
-                <Button w="50%" mt={10} colorScheme='pink' variant='solid'>
-                Buy Now!
-              </Button>
-              </Link>
+<Center><Heading mt={2} mb={2} size="md">Order Summary</Heading></Center>
+<hr />
 
-              <Link  to={`/`}>
-                <Button ml={1} w="50%" mt={10} colorScheme='green' variant='solid'>
-                Go Back!
-              </Button>
-              </Link>
-                
+       {
+        makeup===""? <Flex>
+
+        <Image w="50%" h="70%" src={mdata.main_image} />
+       <Box mt={10}> 
+       <Heading size="md">{mdata.title}</Heading>
+          <Heading mt={5} size="lg">Total Amount:{price}</Heading>
+          {
+            isVisible ? (
+              <Alert mt={3} status='success'>
+                <AlertIcon />
+                <Box>
+                  <AlertTitle>Success!</AlertTitle>
+                  <AlertDescription>
+                    Congrats! coupan Applied!
+                    Your Applacable for free Home Delivary
+                  </AlertDescription>
                 </Box>
-               
+                <CloseButton
+                  alignSelf='flex-start'
+                  position='relative'
+                  right={-1}
+                  top={-1}
+                  onClick={onClose}
+                />
+              </Alert>
+            ) : (
+              <Button borderRadius={2} mt={5} w="80%" bg="blue" color="white" onClick={onOpen} leftIcon={<Avatar size='sm' src="https://img.icons8.com/external-those-icons-flat-those-icons/344/external-Flash-weather-those-icons-flat-those-icons.png" />}> Click and Get Free Delivery! </Button>
+            )
+          }
 
-              </Flex> 
+
+
+
+         
+          <Link  to={`/address`}>
+          <Button w="50%" mt={10} colorScheme='pink' variant='solid'>
+          Buy Now!
+        </Button>
+        </Link>
+
+        <Link  to={`/`}>
+          <Button ml={1} w="50%" mt={10} colorScheme='green' variant='solid'>
+          Go Back!
+        </Button>
+        </Link>
+          
+          </Box>
+         
+
+        </Flex> : <Flex>
+
+<Image w="50%" mr={5} h="70%" src={makeup.image_link} />
+<Box mt={10}> 
+<Heading size="md">{makeup.name}</Heading>
+  <Heading mt={5} size="lg">Total Amount:{makeup.price}</Heading>
+  {
+    isVisible ? (
+      <Alert mt={3} status='success'>
+        <AlertIcon />
+        <Box>
+          <AlertTitle>Success!</AlertTitle>
+          <AlertDescription>
+            Congrats! coupan Applied!
+            Your Applacable for free Home Delivary
+          </AlertDescription>
+        </Box>
+        <CloseButton
+          alignSelf='flex-start'
+          position='relative'
+          right={-1}
+          top={-1}
+          onClick={onClose}
+        />
+      </Alert>
+    ) : (
+      <Button borderRadius={2} mt={5} w="80%" bg="blue" color="white" onClick={onOpen} leftIcon={<Avatar size='sm' src="https://img.icons8.com/external-those-icons-flat-those-icons/344/external-Flash-weather-those-icons-flat-those-icons.png" />}> Click and Get Free Delivery! </Button>
+    )
+  }
+
+
+
+
+ 
+  <Link  to={`/address`}>
+  <Button w="50%" mt={10} colorScheme='pink' variant='solid'>
+  Buy Now!
+</Button>
+</Link>
+
+<Link  to={`/`}>
+  <Button ml={1} w="50%" mt={10} colorScheme='green' variant='solid'>
+  Go Back!
+</Button>
+</Link>
+  
+  </Box>
+ 
+
+</Flex> 
+       }
+
             </Box>
             </>
     )

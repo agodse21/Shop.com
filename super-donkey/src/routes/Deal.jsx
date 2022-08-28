@@ -6,3 +6,4 @@ function DealsPage(){
     )
 }
 export default DealsPage;
+
