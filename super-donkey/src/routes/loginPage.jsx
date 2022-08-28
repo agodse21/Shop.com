@@ -54,7 +54,9 @@ const handleLogin=(e)=>{
           loginUser(input.password,res.data.token)
   
       }).catch(err=>{
-          console.log(err)
+          console.log(err.response.data)
+          alert(err.response.data.error)
+
       })
   }
   if(isAuth){
