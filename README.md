@@ -6,7 +6,7 @@
 
 ## About the Project
 >This Project is all about the clone Version Of [Shop.com](https://www.shop.com/)
->I created a fully Functionble version by using **React JS**, **Chakra UI**, **Axios**. And Best Thing of our Project is **our clone site gives Access to user when the user create Account by using Sign Up and do Log in**.
+>I created a fully Functionble version by using **React JS**, **Chakra UI**, **Axios**. And Best Thing of our Project is **My clone site gives Access to user when the user create Account by using Sign Up and do Log in**.
 
 
 ## Here the link of My clone site:
@@ -15,4 +15,4 @@
 
 ### Thank you so much
 
->Thank you so much Masai for giving the opportunity of construct week Project and also thanks to our Instructor **Albert sir** and our **IA Shailendra sir**
+>Thank you so much Masai for giving the opportunity of construct week Project and also thanks to My Instructor **Albert sir** and our **IA Shailendra sir**
