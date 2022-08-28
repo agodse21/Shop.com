@@ -9,9 +9,15 @@ const GetMedProbyId=(id)=>{
     return axios(`https://warm-garden-46246.herokuapp.com/medical_products/${id}`);
 
 }
-
+const MakeupProduct=(id)=>{
+  return axios(`https://warm-garden-46246.herokuapp.com/Makeup_Products/${id}`)
+  }
+  const AllProductApi=()=>{
+    return axios(`https://makeup-api.herokuapp.com/api/v1/products.json?product_category=powder`)
+    }
 function ProductDetail(){
     const [mdata,setMdata]=useState([]);
+    const [makeup,setMakeup]=useState("");
     const { id } = useParams();
     useEffect(() => {
         
@@ -24,6 +30,20 @@ function ProductDetail(){
         })
          
       }, [id]);
+      useEffect(() => {
+        
+        MakeupProduct(id).then(res=>{
+           setMakeup(res.data)
+            console.log("ss",res.data)
+      
+        }).catch(err=>{
+            console.log(err)
+        })
+         
+      }, [id]);
+
+      
+      // console.log(makeup)
     return (
       <>
         <Breadcrumb
@@ -39,51 +59,103 @@ function ProductDetail(){
           </BreadcrumbItem>
         </Breadcrumb>
 
-        <Box mt={3} w="100%" h="500px" key={mdata.id}>
-          <Flex>
-            <Box w="20%">
-              <Stack>
-                <Image w="50%" h="10%" src={mdata.main_image} />
-                <Image w="50%" h="10%" src={mdata.back_side_img} />
-                <Image w="50%" h="10%" src={mdata.side_img} />
-              </Stack>
-            </Box>
-            <Box w="40%">
-            <Tag size="lg" w="10%" colorScheme="red" >
-                  <Center>
-                  <TagLabel>New</TagLabel>
-                  </Center>
-                  </Tag>
-              <Image w="70%" h="100%" src={mdata.main_image} />
-
-            </Box>
-            <Box w="40%">
-              <Stack>
-                <Heading as="h2" size="md">
-                  {mdata.title}
-                </Heading>
-
-                <Tag size="lg" w="20%" colorScheme="red" >
-                  <Center>
-                  <TagLabel>New Arrival</TagLabel>
-                  </Center>
-                 
+      {
+        makeup===""?  <Box mt={3} w="100%" h="500px" key={mdata.id}>
+        <Flex>
+          <Box w="20%">
+            <Stack>
+              <Image w="50%" h="10%" src={mdata.main_image} />
+              <Image w="50%" h="10%" src={mdata.back_side_img} />
+              <Image w="50%" h="10%" src={mdata.side_img} />
+            </Stack>
+          </Box>
+          <Box w="40%">
+          <Tag size="lg" w="10%" colorScheme="red" >
+                <Center>
+                <TagLabel>New</TagLabel>
+                </Center>
                 </Tag>
-                <Heading as="h2" size="lg">
-                  {mdata.price}
-                </Heading>
-              <Text >
+            <Image w="70%" h="100%" src={mdata.main_image} />
+
+          </Box>
+          <Box w="40%">
+            <Stack>
+              <Heading as="h2" size="md">
+                {mdata.title}
+              </Heading>
+
+              <Tag size="lg" w="20%" colorScheme="red" >
+                <Center>
+                <TagLabel>New Arrival</TagLabel>
+                </Center>
+               
+              </Tag>
+              <Heading as="h2" size="lg">
+                {mdata.price}
+              </Heading>
+            <Text >
 {mdata.desc}
-              </Text><br/>
-              <Link  to={`/cart/${mdata.id}`}>
-              <Button variant='outline' colorScheme='red' w="50%">Add to Cart</Button>
-              </Link>
-              <br />
-              <Button variant='outline' colorScheme='green' w="50%">Add to Order</Button>
-              </Stack>
-            </Box>
-          </Flex>
-        </Box>
+            </Text><br/>
+            <Link  to={`/cart/${mdata.id}`}>
+            <Button variant='outline' colorScheme='red' w="50%">Add to Cart</Button>
+            </Link>
+            <br />
+            <Link  to={`/orders/${mdata.id}`}>
+            <Button variant='outline' colorScheme='green' w="50%">Add to Order</Button>
+            </Link>
+            </Stack>
+          </Box>
+        </Flex>
+      </Box>:
+       <Box mt={3} w="100%" h="600px" key={makeup.id}>
+       <Flex>
+         <Box w="20%">
+           <Stack>
+             <Image w="50%" h="10%" src={mdata.main_image} />
+             <Image w="50%" h="10%" src={mdata.back_side_img} />
+             <Image w="50%" h="10%" src={mdata.side_img} />
+           </Stack>
+         </Box>
+         <Box w="40%">
+         <Tag size="lg" w="10%" colorScheme="red" >
+               <Center>
+               <TagLabel>New</TagLabel>
+               </Center>
+               </Tag>
+           <Image w="70%" h="100%" src={makeup.image_link} />
+
+         </Box>
+         <Box w="40%">
+           <Stack>
+             <Heading as="h2" size="md">
+               {makeup.name}
+             </Heading>
+
+             <Tag size="lg" w="20%" colorScheme="red" >
+               <Center>
+               <TagLabel>New Arrival</TagLabel>
+               </Center>
+              
+             </Tag>
+             <Heading as="h2" size="lg">
+               ${makeup.price}
+             </Heading>
+           <Text >
+{makeup.description}
+           </Text>
+           <br/>
+           <Link  to={`/cart/${makeup.id}`}>
+           <Button variant='outline' colorScheme='red' w="50%">Add to Cart</Button>
+           </Link>
+           <br />
+           <Link  to={`/orders/${makeup.id}`}>
+           <Button variant='outline' colorScheme='green' w="50%">Add to Order</Button>
+           </Link>
+           </Stack>
+         </Box>
+       </Flex>
+     </Box>
+      }
       </>
     );
 }

@@ -25,19 +25,54 @@ function getRandomInt(max,min) {
 const medicalProduct=(page)=>{
   return axios(`https://warm-garden-46246.herokuapp.com/medical_products?_page=${page}&_limit=4`);
 }
+const MakeupProduct=(page)=>{
+return axios(`https://warm-garden-46246.herokuapp.com/Makeup_Products?_page=${page}&_limit=4`)
+}
+
+const MixProductApi=()=>{
+  return axios(`https://api.escuelajs.co/api/v1/categories?offset=1&limit=5`)
+  }
+
+
 
 function HomePage() {
   const [medicine,setMedicine]=useState([]);
+  const [mixproduct,setMixproduct]=useState([]);
+  const [makeup,setMakeup]=useState([]);
+  
   const [page,setPage]=useState(1);
+  const [page1,setPage1]=useState(1);
   useEffect(()=>{
     medicalProduct(page).then(res=>{
       setMedicine(res.data);
-      console.log("ss",medicine)
+      // console.log("ss",medicine)
 
   }).catch(err=>{
       console.log(err)
   })
-  },[page])
+  },[page]);
+  
+  useEffect(()=>{
+    MixProductApi().then(res=>{
+      setMixproduct(res.data);
+    
+
+  }).catch(err=>{
+      console.log(err)
+  })
+  },[])
+  
+  useEffect(()=>{
+    MakeupProduct(page1).then(res=>{
+      setMakeup(res.data);
+      // console.log("aa",res.data);
+      // console.log("make",makeup);
+
+  }).catch(err=>{
+      console.log(err)
+  })
+  },[page1]);
+  console.log("mix",mixproduct)
   return (
     <>
       {" "}
@@ -208,7 +243,8 @@ function HomePage() {
           </Box>
         </Flex>
       </Box>
-      <Box mt={3} w="100%" bg="white" p={3}>
+
+<Box mt={3} w="100%" bg="white" p={3}>
         <Heading>
           New Prouducts
         </Heading>
@@ -239,6 +275,71 @@ function HomePage() {
         
         </Flex>
       </Box>
+<hr h={5} />
+
+      <Box mt={3} w="100%" bg="white" p={3}>
+        <Center>
+        <Heading>
+        Popular Brands
+        </Heading>
+        </Center>
+        <Flex h="550px"  justifyContent="space-evenly" p={3}>
+        <IconButton mt="15%" disabled={page1===1} onClick={()=>setPage1(page1-1)} icon={<ArrowLeftIcon />} colorScheme='teal' variant='outline' />
+        
+        {
+          makeup.map((item)=><>
+         <Link  to={`/product/${item.id}`}>
+           <Box w="100%" h="100%" cursor="pointer" bg="white"  p={3} key={item.id}>
+              <Image w="90%" h="80%" src={item.image_link} alt={item.main_image}/>
+             <Center> <Text w="80%">
+                {item.name}
+              </Text>
+             </Center>
+             <Heading ml={10} size="sm">
+                ${item.price}
+                </Heading>
+                <Text ml={10}><Icon mr={2} as={StarIcon} />{item.rating}</Text>
+              </Box>
+              </Link>
+              {/* <ProductDetail key={item.id} main_image={item.main_image} title={item.title}
+               price={item.price} desc={item.desc} back_side_img={item.back_side_img} side_img={item.side_img} /> */}
+              </>
+          )
+        }
+         <IconButton mt="15%" onClick={()=>setPage1(page1+1)} icon={<ArrowRightIcon />} colorScheme='teal' variant='outline' />
+        
+        </Flex>
+      </Box>
+
+      <hr h={5} />
+      <Box mt={3} w="100%" bg="white" p={3}>
+        <Center>
+        <Heading>
+        Set your Summer Table
+        </Heading>
+        </Center>
+        <Flex h="400px"  justifyContent="space-evenly" p={3}>
+      
+        {
+          mixproduct.map((item)=><>
+         <Link  to={`/product/${item.id}`}>
+           <Box w="100%" h="100%" cursor="pointer" bg="white"  p={3} key={item.id}>
+              <Image  border="10px solid grey" w="90%" borderRadius="50%" h="70%" src={item.image} alt={item.main_image}/>
+             <Center> <Heading size="md" textTransform="uppercase" mt={3}>
+                {item.name}
+              </Heading>
+             </Center>
+                </Box>
+              </Link>
+                </>
+          )
+        }
+      
+        </Flex>
+      </Box>
+
+    
+
     </>
   );
 }
