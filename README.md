@@ -9,7 +9,7 @@
 >I created a fully Functionble version by using **React JS**, **Chakra UI**, **Axios**. And Best Thing of our Project is **our clone site gives Access to user when the user create Account by using Sign Up and do Log in**.
 
 
-## Here the link of our clone site:
+## Here the link of My clone site:
 
 > [Shop.com clone by Me(Amol Godse)](https://isnt-agodse9-gmail-com-awesome-0c048.netlify.app)
 
